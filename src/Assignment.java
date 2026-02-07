@@ -1,10 +1,14 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 public class Assignment {
     private static int next_id = 0;
 
     public final int id;
-    protected String name;
-    protected String desc;
-    protected int points;
+    public final String name;
+    public final String desc;
+    public final int points;
     public final int course_id;
 
     public Assignment(String name, String desc, int points, int course_id) {
@@ -15,27 +19,21 @@ public class Assignment {
         this.course_id = course_id;
     }
 
-    public int getPoints() {
-        return points;
+    // Given a list of grades, filter them for this assignment only
+    public ArrayList<Grade> getGrades(List<Grade> list) {
+        var result = new ArrayList<Grade>(list.size());
+        for (Grade g : list)
+            if (g.assignment_id == id)
+                result.add(g);
+        return result;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public String getDescription() {
-        return desc;
-    }
-
-    public void setPoints(int points) {
-        this.points = points;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setDescription(String desc) {
-        this.desc = desc;
+    // Given a list of grades and student, filter them this assignment only
+    public Optional<Grade> studentGrade(List<Grade> list, int student_id) {
+        for (Grade g : getGrades(list)) {
+            if (g.student_id == student_id)
+                return Optional.of(g);
+        }
+        return Optional.empty();
     }
 }

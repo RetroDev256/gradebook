@@ -2,8 +2,8 @@ public class Human {
     private static int next_id = 0;
 
     public final int id;
-    protected Gender gender;
-    protected String[] names;
+    public final Gender gender;
+    public final String[] names;
 
     public Human(Gender gender, String[] names) {
         this.gender = gender;
@@ -11,23 +11,23 @@ public class Human {
         this.id = next_id;
     }
 
-    public int getId() {
-        return id;
-    }
+    public String formatName() {
+        if (names == null || names.length == 0) {
+            return "[unknown]";
+        }
 
-    public Gender getGender() {
-        return gender;
-    }
+        var builder = new StringBuilder();
+        int last_idx = names.length - 1;
+        builder.append(names[last_idx]);
 
-    public String[] getNames() {
-        return names;
-    }
+        if (names.length > 1) {
+            builder.append(',');
 
-    public void setGender(Gender gender) {
-        this.gender = gender;
-    }
+            for (int i = 0; i < last_idx; i++) {
+                builder.append(" %s".formatted(names[i]));
+            }
+        }
 
-    public void setNames(String[] names) {
-        this.names = names;
+        return builder.toString();
     }
 }
