@@ -1,6 +1,3 @@
-import java.util.ArrayList;
-import java.util.List;
-
 public class Grade {
     public final int points;
     public final int student_id;
