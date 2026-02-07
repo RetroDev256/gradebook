@@ -30,15 +30,15 @@ public class Student extends Human {
     // Print the report card given an assignment list and grade list
     public void printReport(Database db) {
         // Overall grade report
-        System.out.printf("--- --- --- Grade Report: %s\n", formatName());
+        System.out.printf("Grade Report: %s\n", formatName());
 
         // Report per-enrollment
         for (Enrollment e : getEnrollments(db.enrollment_list)) {
             Course c = db.getCourse(e.course_id).orElseThrow();
             Teacher t = db.getTeacher(c.teacher_id).orElseThrow();
-            System.out.printf("--- --- Course: %s\n", c.name);
-            System.out.printf("--- Teacher: %s\n", t.formatName());
-            System.out.print("--- Assignments:\n");
+            System.out.printf(" - Course: %s\n", c.name);
+            System.out.printf("   - Teacher: %s\n", t.formatName());
+            System.out.print("   - Assignments:\n");
 
             int total_earned = 0;
             int total_possible = 0;
@@ -49,17 +49,17 @@ public class Student extends Human {
                 int earned_points = opt_grade.map(g -> g.points).orElse(0);
 
                 double grade = getGrade(earned_points, a.points);
-                System.out.printf("%s: %d%%", a.name, grade);
-                System.out.printf(" - %s\n", getLetterGrade(grade));
+                System.out.printf("     - %s: %.2f%%", a.name, grade);
+                System.out.printf(" / %s\n", getLetterGrade(grade));
 
                 total_earned += earned_points;
                 total_possible += a.points;
             }
 
             double grade = getGrade(total_earned, total_possible);
-            System.out.printf("--- Grade: %d%%\n", grade);
-            System.out.printf("--- Letter: %s\n", getLetterGrade(grade));
-            System.out.printf("--- Status: %s\n", getPassingStatus(grade));
+            System.out.printf("   - Grade: %.2f%%\n", grade);
+            System.out.printf("   - Letter: %s\n", getLetterGrade(grade));
+            System.out.printf("   - Status: %s\n", getPassingStatus(grade));
         }
     }
 
