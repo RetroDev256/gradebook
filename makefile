@@ -47,7 +47,7 @@ watch:
 
 clean:
 	# Format before cleaning
-	@make -s format
+#	@make -s format
 	# Remove build output
 	rm -rf $(BINDIR)
 
